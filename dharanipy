@@ -1,0 +1,85 @@
+
+class Student:
+    def __init__(self, name):
+        self.name = name
+        self.grades = {}
+
+    def add_grade(self, subject, grade):
+        self.grades[subject] = grade
+
+    def get_average_grade(self):
+        if not self.grades:
+            return "No grades available"
+        total = sum(self.grades.values())
+        return total / len(self.grades)
+
+class GradeManagementSystem:
+    def __init__(self):
+        self.students = {}
+
+    def add_student(self, name):
+        if name.strip() == "":
+            print("Error: Student name cannot be empty.")
+            return
+
+        if name not in self.students:
+            self.students[name] = Student(name)
+            print(f"Student '{name}' added successfully.")
+        else:
+            print(f"Student '{name}' already exists.")
+
+    def add_grade(self, name, subject, grade):
+        if name not in self.students:
+            print(f"Error: Student '{name}' not found.")
+            return
+
+        try:
+            grade = float(grade)
+        except ValueError:
+            print("Error: Grade must be a numeric value.")
+            return
+
+        self.students[name].add_grade(subject, grade)
+        print(f"Grade {grade} added for '{subject}' for student '{name}'.")
+
+    def get_average_grade(self, name):
+        if name not in self.students:
+            print(f"Error: Student '{name}' not found.")
+            return
+        average_grade = self.students[name].get_average_grade()
+        print(f"Average grade for '{name}': {average_grade:.2f}")
+
+def main():
+    grade_system = GradeManagementSystem()
+
+    while True:
+        print("\nOptions:")
+        print("1. Add a new student")
+        print("2. Add a grade for a student")
+        print("3. Get average grade for a student")
+        print("4. Exit")
+
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            name = input("Enter student's name: ")
+            grade_system.add_student(name)
+        elif choice == "2":
+            name = input("Enter student's name: ")
+            subject = input("Enter subject: ")
+            grade = input("Enter grade: ")
+            grade_system.add_grade(name, subject, grade)
+        elif choice == "3":
+            name = input("Enter student's name: ")
+            grade_system.get_average_grade(name)
+        elif choice == "4":
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Please enter a number from 1 to 4.")
+
+if __name__ == "__main__":
+    main()
+
+
+
